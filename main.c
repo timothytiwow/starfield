@@ -5,6 +5,7 @@
 #include <sys/timeb.h>
 #include <unistd.h>
 #include <time.h>
+#include <stdbool.h>
 
 struct STAR {
     float x, y, z;
@@ -82,8 +83,21 @@ int main(int argc, char * argv[]) {
         spawnStar(stars, i, (rand1 * 2.0) - 1.0, (rand2 * 2.0) - 1.0, rand3 * 5.0);
     }
     
+    SDL_Event evt;
+    bool loop = true;
+
     //main loop
-    while(!0) {
+    while(loop) {
+        //handling close event
+        while(SDL_PollEvent(&evt)) {
+            switch(evt.type) {
+                case SDL_WINDOWEVENT:
+                    if(evt.window.event == SDL_WINDOWEVENT_CLOSE)
+                        loop = false;
+                    break;
+            }
+        }
+
         //calculate delta
         ftime(&end);
         float delta = (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
