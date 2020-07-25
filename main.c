@@ -105,9 +105,9 @@ int main(int argc, char * argv[]) {
                 spawnStar(stars, i, (rand1 * 2.0) - 1.0, (rand2 * 2.0) - 1.0, rand3 * 5.0);
             }
 
-            float displayx = 240.0 * (stars[i].x+stars[i].z) / 2.0 * stars[i].z;
-            float displayy = 240.0 * (stars[i].y+stars[i].z) / 2.0 * stars[i].z;
-
+            float displayx = (240.0 * (stars[i].x+stars[i].z)) / (2.0 * stars[i].z);
+            float displayy = (240.0 * (stars[i].y+stars[i].z)) / (2.0 * stars[i].z);
+            
             //if current star is out of screen space, re-initialize it on other location
             if((displayx < 0.0 || displayx >= 240.0)||(displayy < 0.0 || displayy >= 240.0)) {
                 float rand1 = (float)(rand() % (1024)) / 1024.0;
