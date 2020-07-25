@@ -45,18 +45,6 @@ int main(int argc, char * argv[]) {
     Uint32 * pixels = (Uint32*) malloc(sizeof(Uint32) * 240 * 240); //original surface
     Uint32 * pixlarge = (Uint32*) malloc(sizeof(Uint32) * 960 * 960); //output surface after scaling
 
-    SDL_Window * window;
-    SDL_Init(SDL_INIT_VIDEO);
-
-    window = SDL_CreateWindow("starfield", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 960, 960, SDL_WINDOW_OPENGL);
-    if(window == NULL) {
-        printf("Can't create window: %s\n", SDL_GetError());
-        return 1;
-    }
-
-    SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
-    SDL_Texture * texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, 960, 960);
-
     //for delta calculations
     struct timeb start, end;
     ftime(&start);
@@ -73,6 +61,19 @@ int main(int argc, char * argv[]) {
     printf("input stars travel speed: "); scanf("%f", &speed);
     printf("%d %f\n", numofstars, speed);
 
+    //initialize window
+    SDL_Window * window;
+    SDL_Init(SDL_INIT_VIDEO);
+
+    window = SDL_CreateWindow("starfield", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 960, 960, SDL_WINDOW_OPENGL);
+    if(window == NULL) {
+        printf("Can't create window: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
+    SDL_Texture * texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, 960, 960);
+
     struct STAR * stars = (struct STAR*) malloc(sizeof(struct STAR) * numofstars);
     
     int i = 0;
@@ -82,7 +83,7 @@ int main(int argc, char * argv[]) {
         float rand3 = (float)(rand() % (1024)) / 1024.0;
         spawnStar(stars, i, (rand1 * 2.0) - 1.0, (rand2 * 2.0) - 1.0, rand3 * 5.0);
     }
-    
+
     SDL_Event evt;
     bool loop = true;
 
